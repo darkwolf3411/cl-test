@@ -42,9 +42,9 @@ const NutritionAddDialog: FC<Porps> = ({ isOpen, handleClose }) => {
     (state) => state.loadingReducer
   );
 
-  const checkAsNumber = (fieldNane: keyof INutrition) => {
+  const checkAsNumber = (fieldName: keyof INutrition) => {
     return (
-      validator.isDecimal(getValues(fieldNane).toString()) || "Only numbers"
+      validator.isDecimal(getValues(fieldName).toString()) || "Only numbers"
     );
   };
 

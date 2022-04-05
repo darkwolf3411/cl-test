@@ -1,46 +1,77 @@
-# Getting Started with Create React App
+<h1>Frontend test case</h1>
+Написать небольшое приложение на React + Typescript. Приложение пишется только через функции и хуки, классы использовать запрещено.
+Приложение должно содержать:
+<ul>
+<li>Таблица, которая может содержать произвольное кол-во полей (от 5 до 15).</li>
+<li>Данные в таблицу должны загружаться с сервера и использовать Infinite Loader для подгрузки новых данных.</li>
+<li>Стейт-менеджер (или его отсутствие, обосновать выбор или же отсутствие инструмента).</li>
+<li>Форма создания новой записи в таблице - должно быть минимум 5 полей
+Пояснения:
+  <ul>
+    <li>Учитывайте, что полей может быть произвольное кол-во</li>
+    <li>Поля имеют валидацию (от простых на обязательность, до сложных в виде правильного IBAN) (можно не делать, но тогда описать как бы вы это реализовали)</li>
+    <li>При отправке должен быть соответствующий стейт (disable кнопки или другие)</li>
+    <li>Сервер может не принять форму и вернуть ошибки (опять же можно не делать, но описать реализацию)</li>
+    </ul>
+</li>
+<li>Форма должна отправляться по api. Запись добавляется в таблицу</li>
+<li>Любая анимация (например попап с формой) (используйте что-то сложнее простых CSS анимаций)</li>
+<li>Описать как реализовать i18n и l10n в текущем проекте (делать не нужно).</li>
+<li>Код расположить в github. В github actions должна быть настроена сборка. (Если не знаете, то пропускаете с пометкой не знаком, слышал, использовал другие CI/CD и т.д.)</li>
+<li>Приложить Dockerfile (если не знаете, то пропускаете с пометкой не знаком, слабо знаком, слышал и т.д.)</li>
+<li>Должно быть написано несколько тестов. Хотя бы один из тестов обязательно должен покрывать сетевые запросы и асинхронные операции.</li>
+</ul>
+Разрешено использование любых сторонних библиотек (но нужно будет обосновать их использование).
+Для UI возможно использовать любую библиотеку компонентов или фреймворк(bootstrap, chakra, material, etc.).
+Для API можно использовать https://github.com/typicode/json-server файл c db нужно приложить к проекту.
+***
+<h2>Мои решения<h2>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <ol>
+    <li>
+      Для реализации infinite scroll использовал библиотеку "react-infinite-scroll-hook"
+    </li>
+    <li>
+      Стейт-менеджер использовал React toolkit (слайсы) для хранения данных и выполнения асинхронных запросов (thunk'и)
+    </li>
+    <li>
+      Для валидации формы использовал библиотеку "react-hook-form" и "validator" для кастомной валидации, например IBAN
+    </li>
+      <li>
+        С GitHub Actions не знаком
+      </li>
+    <li>
+      С Docker малознаком
+    </li>
+  </ol>
+  <h3>
+    Пример валидации IBAN с "react-hook-form" и "validator"
+  </h3>
+ 
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```javascript
+const checkAsIBAN = (fieldName) => {
+  return (
+    validator.isIBAN(getValues(fieldNane).toString()) || "Wrong IBAN"
+  );
+};
+<Controller
+  name="iban"
+  control={control}
+  rules={{
+    required: "Field Calories is required!",
+    validate: () => checkAsIBAN("iban"),
+  }}
+  render={({ field, fieldState: { error } }) => (
+    <TextField
+      {...field}
+      error={!!error}
+      margin="dense"
+      label="iban"
+      fullWidth
+      helperText={error?.message || null}
+      variant="standard"
+    />
+  )}
+/>
+```
