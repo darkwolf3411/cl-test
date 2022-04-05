@@ -37,9 +37,12 @@
     <li>
       Для валидации формы использовал библиотеку "react-hook-form" и "validator" для кастомной валидации, например IBAN
     </li>
-      <li>
-        С GitHub Actions не знаком
-      </li>
+    <li>
+      Для вывода ошибок использовался snackbar из библиотеки "notistack" 
+    </li>
+    <li>
+      С GitHub Actions не знаком
+    </li>
     <li>
       С Docker малознаком
     </li>
